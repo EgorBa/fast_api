@@ -57,4 +57,4 @@ def test():
             imageFile.save("logos/" + str(counter) + ".png")
         counter += 1
 
-test()
+# test()
