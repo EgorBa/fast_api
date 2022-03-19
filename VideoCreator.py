@@ -283,11 +283,11 @@ def generate_one_video(video_length, x1=0, y1=0, x2=0, y2=0, x3=0, y3=0, x4=0, y
             else:
                 y = int((y1 + y2 - h - shift_y) / 2 + shift_y * ((2 * j - 3 * count_frames / 2) / count_frames))
             draw.text((x, y), text, font=font, fill=new_rgb_colors)
-            out_path = "prepared/" + str(randrange(1000000)) + ".png"
+            out_path = str(randrange(1000000)) + ".png"
             print(out_path)
             pictures.append(out_path)
             background.save(out_path, format="png")
-        out_video_path = 'videos/output_video_' + str(randrange(1000000)) + '.avi'
+        out_video_path = 'output_video_' + str(randrange(1000000)) + '.avi'
         out = cv2.VideoWriter(out_video_path, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), count_frames, frameSize)
         for i in range(video_length):
             for p in pictures:
