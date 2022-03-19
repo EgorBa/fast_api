@@ -24,4 +24,4 @@ def read_q(q: Optional[str] = None):
     im_url = LogoExtractor.get_icon(q)
     p = requests.get(im_url)
     inp = io.BytesIO(p.content)
-    return {"q": q[1:-1]}
+    return {"q": inp}
