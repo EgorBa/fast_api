@@ -44,7 +44,8 @@ def test():
             'https://tproger.ru',
             'https://www.endclothing.com',
             'https://kmu.itmo.ru',
-            'https://www.sber.ru']
+            'https://www.sber.ru',
+            'ddd']
     counter = 0
     for url in urls:
         im_url = get_icon(url)
@@ -55,3 +56,5 @@ def test():
             imageFile = Image.open(inp)
             imageFile.save("logos/" + str(counter) + ".png")
         counter += 1
+
+test()

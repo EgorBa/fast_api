@@ -21,7 +21,10 @@ def read_item(item_id: int, q: Optional[str] = None):
 
 @app.get("/logo/{item_id}")
 def read_q(q: Optional[str] = None):
-    im_url = LogoExtractor.get_icon(q)
-    p = requests.get(im_url)
-    inp = io.BytesIO(p.content)
-    return {"q": im_url}
+    im_url = LogoExtractor.get_icpyton(q)
+    return {"url": im_url}
+
+
+@app.get("/create/{item_id}")
+def read_q(q: Optional[str] = None):
+    return {"url": q}
