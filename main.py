@@ -50,7 +50,7 @@ def read_request(im1: Optional[str] = "", im2: Optional[str] = "", im3: Optional
         x3=0, y3=int(H / 3), x4=W, y4=H,  # image position
         text=desc1,  # text
         path_to_image="logos/0.png",  # path to image
-        animation_type='wiggle',  # type of animation
+        animation_type='simple',  # type of animation
         url='https://pythonist.ru'
     )
 
