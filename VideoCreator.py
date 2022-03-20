@@ -148,7 +148,7 @@ def generate_one_video(video_length, x1=0, y1=0, x2=0, y2=0, x3=0, y3=0, x4=0, y
             draw.text((int((x1 + x2 - w) / 2), int((y1 + y2 - h) / 2)), text, font=font, fill=new_rgb_colors)
         if promo_text != "":
             create_sale(background, x5, y5, x6, y6, promo_text, promo_type)
-        out_image_path = "" + str(randrange(1000000)) + ".png"
+        out_image_path = str(randrange(1000000)) + ".png"
         background.save(out_image_path, format="png")
         out_video_path = 'output_video_' + str(randrange(1000000)) + '.avi'
         out = cv2.VideoWriter(out_video_path, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 1 / video_length, frameSize)

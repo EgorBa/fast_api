@@ -54,4 +54,9 @@ def read_request(im1: Optional[str] = "", im2: Optional[str] = "", im3: Optional
         url='https://pythonist.ru'
     )
 
-    return {"video": path_1}
+    imageFileObj = open(path_1, 'rb')
+    imageBinaryBytes = imageFileObj.read()
+    imageStream = io.BytesIO(imageBinaryBytes)
+    s = imageStream.read().decode('ISO-8859-1')
+
+    return {"video": s}
