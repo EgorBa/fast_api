@@ -59,7 +59,7 @@ def read_request(im1: Optional[str] = "", im2: Optional[str] = "", im3: Optional
         imageBinaryBytes = imageFileObj.read()
         imageStream = io.BytesIO(imageBinaryBytes)
         s = imageStream.read().decode('ISO-8859-1')
-        return {"video": s}
+        return {"video": im1}
 
     else:
         path_1 = generate_one_video(
