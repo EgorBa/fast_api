@@ -26,7 +26,7 @@ def read_item(item_id: int, q: Optional[str] = None):
 
 @app.get("/logo/{item_id}")
 def read_q(q: Optional[str] = None):
-    im_url = LogoExtractor.get_icpyton(q)
+    im_url = LogoExtractor.get_icon(q)
     return {"url": im_url}
 
 
@@ -57,6 +57,6 @@ def read_request(im1: Optional[str] = "", im2: Optional[str] = "", im3: Optional
     imageFileObj = open(path_1, 'rb')
     imageBinaryBytes = imageFileObj.read()
     imageStream = io.BytesIO(imageBinaryBytes)
-    s = imageStream.read().decode('ISO-8859-1')
+    s = imageStream.read().decode('UTF-8')
 
     return {"video": s}
