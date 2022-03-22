@@ -11,7 +11,7 @@ app = FastAPI()
 
 
 def get_path(tag):
-    return "resources/" + str(randrange(diversity)) + "_" + tag + ".png"
+    return str(randrange(diversity)) + "_" + tag + ".png"
 
 
 @app.get("/")
