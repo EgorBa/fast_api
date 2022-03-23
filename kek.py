@@ -1,6 +1,7 @@
 import io
 import json
 
+import urllib.parse
 import requests
 
 imageFileObj = open("logos/1.png", 'rb')
@@ -9,9 +10,9 @@ imageStream = io.BytesIO(imageBinaryBytes)
 s = imageStream.read().decode('ISO-8859-1')
 
 
-print(s)
+print("https://afternoon-waters-50114.herokuapp.com/create/1?desc1=kek&im1="+urllib.parse.quote(s))
 p = requests.get(
-    "https://afternoon-waters-50114.herokuapp.com/create/1?desc1=kek&im1=" + s)
+    "https://afternoon-waters-50114.herokuapp.com/create/1?desc1=kek&im1=" + urllib.parse.quote(s))
 print("--------------------")
 print(p.json()['video'])
 out_file = open("videos/2.png", "wb")
