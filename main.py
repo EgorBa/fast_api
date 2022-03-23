@@ -5,9 +5,17 @@ from fastapi import FastAPI
 from random import randrange
 import LogoExtractor
 from VideoCreator import generate_one_video
+from pydantic import BaseModel
 
 diversity = 1000000
 app = FastAPI()
+
+
+class Item(BaseModel):
+    name: str
+    description: Optional[str] = None
+    price: float
+    tax: Optional[float] = None
 
 
 def get_path(tag):
@@ -28,6 +36,11 @@ def read_item(item_id: int, q: Optional[str] = None):
 def read_q(q: Optional[str] = None):
     im_url = LogoExtractor.get_icon(q)
     return {"url": im_url}
+
+
+@app.post("/items/")
+async def create_item(item: Item):
+    return item
 
 
 @app.get("/create/{item_id}")
