@@ -38,7 +38,7 @@ def read_q(q: Optional[str] = None):
     return {"url": im_url}
 
 
-@app.post("/items/")
+@app.post("/item/")
 async def create_item(item: Item):
     return item
 
