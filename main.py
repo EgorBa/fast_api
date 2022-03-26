@@ -93,10 +93,9 @@ def read_request(id: Optional[int] = 0):
     H = 1280
 
     input_path = get_path("in")
-    inp = io.BytesIO(image.encode('ISO-8859-1'))
-    imageFile = Image.open(inp)
-    imageFile.save(input_path)
-    imageFile.close()
+    out_file = open(input_path, "wb")
+    out_file.write(image.encode('ISO-8859-1'))
+    out_file.close()
 
     path_1 = generate_one_video(
         video_len,

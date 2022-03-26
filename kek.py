@@ -36,10 +36,9 @@ print(db.reference("/").child("images").child(str(1667827)).get("image")[0]['ima
 # p = requests.get(
 #     "https://afternoon-waters-50114.herokuapp.com/create/1?desc1=kek&im1=" + urllib.parse.quote(s))
 # print("--------------------")
-# print(p.json()['video'])
-# out_file = open("videos/3.avi", "wb")
-# out_file.write(p.json()['video'].encode('ISO-8859-1'))
-# out_file.close()
+out_file = open("videos/3.png", "wb")
+out_file.write(db.reference("/").child("images").child(str(1667827)).get("image")[0]['image'].encode('ISO-8859-1'))
+out_file.close()
 
 # h = open("samplefile.avi", 'rb')
 # p = h.read()
