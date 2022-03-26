@@ -110,12 +110,12 @@ def read_request(id: Optional[int] = 0):
         url='https://pythonist.ru'
     )
 
-    imageFileObj = open(path_1, 'rb')
-    imageBinaryBytes = imageFileObj.read()
-    imageStream = io.BytesIO(imageBinaryBytes)
-    s = imageStream.read().decode('ISO-8859-1')
-
-    db.reference("/").child("videos").child(str(id)).set(s)
+    if path_1 != "":
+        imageFileObj = open(path_1, 'rb')
+        imageBinaryBytes = imageFileObj.read()
+        imageStream = io.BytesIO(imageBinaryBytes)
+        s = imageStream.read().decode('ISO-8859-1')
+        db.reference("/").child("videos").child(str(id)).set(s)
 
     return {"video": "generating"}
 
