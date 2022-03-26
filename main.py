@@ -45,7 +45,7 @@ def func_launch_video(image, descr):
     imageStream = io.BytesIO(imageBinaryBytes)
     s = imageStream.read().decode('ISO-8859-1')
 
-    db.reference("/").child("videos").child(id).set(s)
+    db.reference("/").child("videos").child(str(id)).set(s)
 
 
 class Item(BaseModel):
@@ -85,8 +85,8 @@ def read_request(id: Optional[int] = 0):
     if id == 0:
         return {"": ""}
 
-    image = db.reference("/").child("images").child(id).get("image")[0]['image']
-    descr = db.reference("/").child("images").child(id).get("descr")[0]['descr']
+    image = db.reference("/").child("images").child(str(id)).get("image")[0]['image']
+    descr = db.reference("/").child("images").child(str(id)).get("descr")[0]['descr']
 
     th = threading.Thread(target=func_launch_video, args=(image, descr,))
     th.start()
