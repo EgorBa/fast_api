@@ -26,8 +26,8 @@ default_app = firebase_admin.initialize_app(cred_object, {
 # })
 
 # print(db.reference("/").child("Books").child("Books").get("Best_Sellers")[0]['Best_Sellers'])
-print(db.reference("/").child("images").child(str(5316737)).get("image")[0]['image'])
-# print(db.reference("/").child("videos").get(str(1696440))[0])
+# print(db.reference("/").child("images").child(str(5316737)).get("image")[0]['image'])
+print(db.reference("/").child("videos").child(str(54709374)).get("video")[0]["video"])
 
 # imageFileObj = open("logos/1.png", 'rb')
 # imageBinaryBytes = imageFileObj.read()

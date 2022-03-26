@@ -5,10 +5,9 @@ from fastapi import FastAPI
 from random import randrange
 import LogoExtractor
 from VideoCreator import generate_one_video
-from pydantic import BaseModel
+from moviepy.editor import *
 import firebase_admin
 from firebase_admin import db
-import threading
 
 cred_object = firebase_admin.credentials.Certificate('panelcreama-firebase-adminsdk-pxxap-8daf8c0b6c.json')
 default_app = firebase_admin.initialize_app(cred_object, {
@@ -18,8 +17,13 @@ default_app = firebase_admin.initialize_app(cred_object, {
 diversity = 1000000
 app = FastAPI()
 
+
 def get_path(tag):
     return str(randrange(diversity)) + "_" + tag + ".png"
+
+
+def get_path_video(tag):
+    return str(randrange(diversity)) + "_" + tag + ".avi"
 
 
 @app.get("/")
@@ -77,14 +81,54 @@ def read_request(id: Optional[int] = 0):
 
     return {"video": "generating"}
 
-# @app.get("/videos/{item_id}")
-# def read_request(id1: Optional[int] = 0, id2: Optional[int] = 0, id3: Optional[int] = 0):
-#     v1 = db.reference("/").child("videos").child(str(id1))[0]
-#     v2 = db.reference("/").child("videos").get(str(id2))[0]
-#     v3 = db.reference("/").child("videos").get(str(id3))[0]
-#
-#     if v1 is not None:
-#         v1
+
+@app.get("/videos/{item_id}")
+def read_request(id1: Optional[int] = 0, id2: Optional[int] = 0, id3: Optional[int] = 0):
+    v1 = db.reference("/").child("videos").child(str(id1)).get("video")[0]
+    v2 = db.reference("/").child("videos").child(str(id2)).get("video")[0]
+    v3 = db.reference("/").child("videos").child(str(id3)).get("video")[0]
+    videos = []
+
+    if v1 is not None:
+        input_path = get_path_video("in")
+        out_file = open(input_path, "wb")
+        out_file.write(v1["video"])
+        out_file.close()
+        videos.append(input_path)
+
+    if v2 is not None:
+        input_path = get_path_video("in")
+        out_file = open(input_path, "wb")
+        out_file.write(v2["video"])
+        out_file.close()
+        videos.append(input_path)
+
+    if v3 is not None:
+        input_path = get_path_video("in")
+        out_file = open(input_path, "wb")
+        out_file.write(v3["video"])
+        out_file.close()
+        videos.append(input_path)
+
+    video_len = 4
+    clips = []
+    for i in range(len(videos)):
+        clip = VideoFileClip(videos[i])
+        if i == 0:
+            clips.append(clip.set_start(i * video_len).crossfadeout(1))
+        else:
+            if i == len(videos) - 1:
+                clips.append(clip.set_start(i * video_len).crossfadein(1))
+            else:
+                clips.append(clip.set_start(i * video_len).crossfadeout(1).crossfadein(1))
+    video = CompositeVideoClip(clips)
+    path = "fifth_variant.mp4"
+    video.write_videofile(path, fps=25)
+    imageFileObj = open(path, 'rb')
+    imageBinaryBytes = imageFileObj.read()
+    imageStream = io.BytesIO(imageBinaryBytes)
+    s = imageStream.read().decode('ISO-8859-1')
+    return {"video": s}
 
 # @app.get("/create/{item_id}")
 # def read_request(im1: Optional[str] = "", im2: Optional[str] = "", im3: Optional[str] = "",
