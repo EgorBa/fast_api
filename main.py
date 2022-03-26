@@ -88,8 +88,32 @@ def read_request(id: Optional[int] = 0):
     image = db.reference("/").child("images").child(str(id)).get("image")[0]['image']
     descr = db.reference("/").child("images").child(str(id)).get("descr")[0]['descr']
 
-    th = threading.Thread(target=func_launch_video, args=(image, descr,))
-    th.start()
+    video_len = 4
+    W = 720
+    H = 1280
+
+    input_path = get_path("in")
+    inp = io.BytesIO(image.encode('ISO-8859-1'))
+    imageFile = Image.open(inp)
+    imageFile.save(input_path)
+    imageFile.close()
+
+    path_1 = generate_one_video(
+        video_len,
+        x1=0, y1=0, x2=W, y2=int(H / 3),  # text position
+        x3=0, y3=int(H / 3), x4=W, y4=H,  # image position
+        text=descr,  # text
+        path_to_image=input_path,  # path to image
+        animation_type='simple',  # type of animation
+        url='https://pythonist.ru'
+    )
+
+    imageFileObj = open(path_1, 'rb')
+    imageBinaryBytes = imageFileObj.read()
+    imageStream = io.BytesIO(imageBinaryBytes)
+    s = imageStream.read().decode('ISO-8859-1')
+
+    db.reference("/").child("videos").child(str(id)).set(s)
 
     return {"video": "generating"}
 
