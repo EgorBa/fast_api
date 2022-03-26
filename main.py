@@ -92,21 +92,21 @@ def read_request(id1: Optional[int] = 0, id2: Optional[int] = 0, id3: Optional[i
     if v1 is not None:
         input_path = get_path_video("in")
         out_file = open(input_path, "wb")
-        out_file.write(v1["video"])
+        out_file.write(v1["video"].encode('ISO-8859-1'))
         out_file.close()
         videos.append(input_path)
 
     if v2 is not None:
         input_path = get_path_video("in")
         out_file = open(input_path, "wb")
-        out_file.write(v2["video"])
+        out_file.write(v2["video"].encode('ISO-8859-1'))
         out_file.close()
         videos.append(input_path)
 
     if v3 is not None:
         input_path = get_path_video("in")
         out_file = open(input_path, "wb")
-        out_file.write(v3["video"])
+        out_file.write(v3["video"].encode('ISO-8859-1'))
         out_file.close()
         videos.append(input_path)
 
