@@ -26,7 +26,8 @@ default_app = firebase_admin.initialize_app(cred_object, {
 # })
 
 # print(db.reference("/").child("Books").child("Books").get("Best_Sellers")[0]['Best_Sellers'])
-print(db.reference("/").child("images").child(str(1667827)).get("image")[0]['image'])
+print(db.reference("/").child("images").child(str(5316737)).get("image")[0]['image'])
+# print(db.reference("/").child("videos").get(str(1696440))[0])
 
 # imageFileObj = open("logos/1.png", 'rb')
 # imageBinaryBytes = imageFileObj.read()
@@ -36,9 +37,9 @@ print(db.reference("/").child("images").child(str(1667827)).get("image")[0]['ima
 # p = requests.get(
 #     "https://afternoon-waters-50114.herokuapp.com/create/1?desc1=kek&im1=" + urllib.parse.quote(s))
 # print("--------------------")
-out_file = open("videos/3.png", "wb")
-out_file.write(db.reference("/").child("images").child(str(1667827)).get("image")[0]['image'].encode('ISO-8859-1'))
-out_file.close()
+# out_file = open("videos/3.png", "wb")
+# out_file.write(db.reference("/").child("images").child(str(1667827)).get("image")[0]['image'].encode('ISO-8859-1'))
+# out_file.close()
 
 # h = open("samplefile.avi", 'rb')
 # p = h.read()

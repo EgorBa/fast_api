@@ -324,21 +324,21 @@ def generate_one_video(video_length, x1=0, y1=0, x2=0, y2=0, x3=0, y3=0, x4=0, y
 # path3 = generate_one_video(video_len, x1=0, y1=0, x2=W, y2=H, text="pythonist.ru",
 #                            animation_type='scale', url='https://pythonist.ru')
 #
-# videos = [path, path1, path2, path3]
-# print(videos)
-# clips = []
-# for i in range(len(videos)):
-#     clip = VideoFileClip(videos[i])
-#     if i == 0:
-#         clips.append(clip.set_start(i * video_len).crossfadeout(1))
-#     else:
-#         if i == len(videos) - 1:
-#             clips.append(clip.set_start(i * video_len).crossfadein(1))
-#         else:
-#             clips.append(clip.set_start(i * video_len).crossfadeout(1).crossfadein(1))
-# video = CompositeVideoClip(clips)
-# video.write_videofile("fifth_variant.mp4", fps=25)
-# clean_res(videos)
+videos = [path, path1, path2, path3]
+print(videos)
+clips = []
+for i in range(len(videos)):
+    clip = VideoFileClip(videos[i])
+    if i == 0:
+        clips.append(clip.set_start(i * video_len).crossfadeout(1))
+    else:
+        if i == len(videos) - 1:
+            clips.append(clip.set_start(i * video_len).crossfadein(1))
+        else:
+            clips.append(clip.set_start(i * video_len).crossfadeout(1).crossfadein(1))
+video = CompositeVideoClip(clips)
+video.write_videofile("fifth_variant.mp4", fps=25)
+clean_res(videos)
 
 # path_1 = generate_one_video(
 #         4,
