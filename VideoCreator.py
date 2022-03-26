@@ -133,9 +133,9 @@ def generate_one_video(video_length, x1=0, y1=0, x2=0, y2=0, x3=0, y3=0, x4=0, y
             clean_res([logo_path])
 
     if animation_type == "simple":
-        background = Image.new('RGB', frameSize, rgb_colors)
+        background = Image.new('RGBA', frameSize, rgb_colors)
         if path_to_image != "":
-            image = Image.open(path_to_image).convert("RGB")
+            image = Image.open(path_to_image).convert("RGBA")
             (w, h) = image.size
             (w, h) = find_image_size(w, h, x4 - x3, y4 - y3)
             image = image.resize((int(w), int(h)))
