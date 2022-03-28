@@ -3,11 +3,14 @@ from typing import Optional
 from PIL import Image
 from fastapi import FastAPI
 from random import randrange
+
+import ColorsGetter
 import LogoExtractor
 from VideoCreator import generate_one_video
 from moviepy.editor import *
 import firebase_admin
 from firebase_admin import db
+import requests
 import time
 
 cred_object = firebase_admin.credentials.Certificate('panelcreama-firebase-adminsdk-pxxap-8daf8c0b6c.json')
@@ -39,9 +42,26 @@ def read_item(item_id: int, q: Optional[str] = None):
 
 
 @app.get("/logo/{item_id}")
-def read_q(q: Optional[str] = None):
-    im_url = LogoExtractor.get_icon(q)
-    return {"url": im_url}
+def read_q(site: Optional[str] = "", logo_id: Optional[int] = 0):
+    (rgb_colors, new_rgb_colors) = ((255, 0, 0), (0, 0, 0))
+    if logo_id <= 0:
+        im_url = LogoExtractor.get_icon(site)
+        if im_url != "":
+            p = requests.get(im_url)
+            inp = io.BytesIO(p.content)
+            imageFile = Image.open(inp)
+            logo_path = get_path("in")
+            imageFile.save(logo_path)
+            (rgb_colors, new_rgb_colors) = ColorsGetter.get_colors_by_logo(logo_path)
+    else:
+        image = db.reference("/").child("logos").child(str(logo_id)).get("image")[0]['image']
+        logo_path = get_path("in")
+        inp = io.BytesIO(image.encode('ISO-8859-1'))
+        imageFile = Image.open(inp)
+        imageFile.save(logo_path)
+        imageFile.close()
+        (rgb_colors, new_rgb_colors) = ColorsGetter.get_colors_by_logo(logo_path)
+    return {"colors": (rgb_colors, new_rgb_colors)}
 
 
 @app.get("/generate/{item_id}")

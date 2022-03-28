@@ -112,7 +112,8 @@ def create_sale(background, x5, y5, x6, y6, promo_text, promo_type):
 # animation_type can be "simple", "move", "by symbol", "wiggle" and "scale"
 # promo_type can be "rect", "circle"
 def generate_one_video(video_length, x1=0, y1=0, x2=0, y2=0, x3=0, y3=0, x4=0, y4=0, text="", path_to_image="",
-                       animation_type="simple", x5=0, y5=0, x6=0, y6=0, promo_text="", promo_type="rect", url=""):
+                       animation_type="simple", x5=0, y5=0, x6=0, y6=0, promo_text="", promo_type="rect", url="",
+                       logo=None):
     if (path_to_image == "" and text == "") \
             or (text != "" and (x1 == x2 or y1 == y2)) \
             or (path_to_image != "" and (x3 == x4 or y3 == y4)) \
@@ -127,7 +128,7 @@ def generate_one_video(video_length, x1=0, y1=0, x2=0, y2=0, x3=0, y3=0, x4=0, y
             p = requests.get(im_url)
             inp = io.BytesIO(p.content)
             imageFile = Image.open(inp)
-            logo_path = "logos/" + str(randrange(1000000)) + ".png"
+            logo_path = "logos_" + str(randrange(1000000)) + ".png"
             imageFile.save(logo_path)
             (rgb_colors, new_rgb_colors) = ColorsGetter.get_colors_by_logo(logo_path)
             clean_res([logo_path])
