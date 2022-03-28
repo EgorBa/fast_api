@@ -30,10 +30,10 @@ def get_path_video(tag):
     return str(randrange(diversity)) + "_" + tag + ".avi"
 
 
-def get_colors_from_str(str):
-    if str is None:
+def get_colors_from_str(array):
+    if array is None:
         return None
-    strs = str[2:(len(str) - 2)].split("],[")
+    strs = array[2:(len(array) - 2)].split("],[")
     mas1 = list(map(int, strs[0].split(',')))
     mas2 = list(map(int, strs[1].split(',')))
     return (mas1, mas2)
@@ -99,7 +99,7 @@ def read_request(id: Optional[int] = 0, colors: Optional[str] = None):
         text=descr,  # text
         path_to_image=input_path,  # path to image
         animation_type="wiggle",  # type of animation
-        colors=get_colors_from_str(colors.encode('ISO-8859-1'))
+        colors=get_colors_from_str(colors)
     )
 
     if path_1 != "":

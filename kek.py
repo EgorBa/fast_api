@@ -4,6 +4,7 @@ import json
 import urllib.parse
 
 import numpy as np
+from urllib.parse import unquote
 import requests
 import numpy
 
@@ -20,7 +21,7 @@ from firebase_admin import db
 # default_app = firebase_admin.initialize_app(cred_object, {
 #     'databaseURL': 'https://panelcreama-default-rtdb.firebaseio.com'
 # })
-
+print(unquote('%5B%5B138%2C198%2C227%5D%2C%5B132%2C87%2C116%5D%5D'))
 
 # db.reference("/").child("Books").set({
 #     "Books":
