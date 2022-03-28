@@ -34,8 +34,8 @@ def get_colors_from_str(array):
     if array is None:
         return None
     strs = array[2:(len(array) - 2)].split("],[")
-    mas1 = list(map(int, strs[0].split(',')))
-    mas2 = list(map(int, strs[1].split(',')))
+    mas1 = tuple(map(int, strs[0].split(',')))
+    mas2 = tuple(map(int, strs[1].split(',')))
     return (mas1, mas2)
 
 

@@ -8,6 +8,14 @@ from urllib.parse import unquote
 import requests
 import numpy
 
+def get_colors_from_str(array):
+    if array is None:
+        return None
+    strs = array[2:(len(array) - 2)].split("],[")
+    mas1 = tuple(map(int, strs[0].split(',')))
+    mas2 = list(map(int, strs[1].split(',')))
+    return (mas1, mas2)
+
 import firebase_admin
 from firebase_admin import db
 
@@ -21,7 +29,7 @@ from firebase_admin import db
 # default_app = firebase_admin.initialize_app(cred_object, {
 #     'databaseURL': 'https://panelcreama-default-rtdb.firebaseio.com'
 # })
-print(unquote('%5B%5B138%2C198%2C227%5D%2C%5B132%2C87%2C116%5D%5D'))
+print(get_colors_from_str("[[1,1,1],[1,1,1]]"))
 
 # db.reference("/").child("Books").set({
 #     "Books":
