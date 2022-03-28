@@ -8,6 +8,7 @@ from VideoCreator import generate_one_video
 from moviepy.editor import *
 import firebase_admin
 from firebase_admin import db
+import time
 
 cred_object = firebase_admin.credentials.Certificate('panelcreama-firebase-adminsdk-pxxap-8daf8c0b6c.json')
 default_app = firebase_admin.initialize_app(cred_object, {
@@ -28,6 +29,7 @@ def get_path_video(tag):
 
 @app.get("/")
 def read_root():
+    time.sleep(40)
     return {"Hello": "World"}
 
 
@@ -68,7 +70,7 @@ def read_request(id: Optional[int] = 0):
         x3=0, y3=int(H / 3), x4=W, y4=H,  # image position
         text=descr,  # text
         path_to_image=input_path,  # path to image
-        animation_type='simple',  # type of animation
+        animation_type="wiggle",  # type of animation
         url='https://pythonist.ru'
     )
 

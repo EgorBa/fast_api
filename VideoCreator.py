@@ -109,7 +109,7 @@ def create_sale(background, x5, y5, x6, y6, promo_text, promo_type):
 
 # Generate one video with text and image.
 # Returns path to this video.
-# animation_type can be "simple", "move" and "scale"
+# animation_type can be "simple", "move", "by symbol", "wiggle" and "scale"
 # promo_type can be "rect", "circle"
 def generate_one_video(video_length, x1=0, y1=0, x2=0, y2=0, x3=0, y3=0, x4=0, y4=0, text="", path_to_image="",
                        animation_type="simple", x5=0, y5=0, x6=0, y6=0, promo_text="", promo_type="rect", url=""):
