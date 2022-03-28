@@ -98,7 +98,7 @@ def read_request(id: Optional[int] = 0, colors: Optional[str] = None):
         x3=0, y3=int(H / 3), x4=W, y4=H,  # image position
         text=descr,  # text
         path_to_image=input_path,  # path to image
-        animation_type="wiggle",  # type of animation
+        animation_type="simple",  # type of animation
         colors=get_colors_from_str(colors)
     )
 
