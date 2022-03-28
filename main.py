@@ -99,7 +99,7 @@ def read_request(id: Optional[int] = 0, colors: Optional[str] = None):
         text=descr,  # text
         path_to_image=input_path,  # path to image
         animation_type="wiggle",  # type of animation
-        colors=get_colors_from_str(colors)
+        colors=get_colors_from_str(colors.encode('ISO-8859-1'))
     )
 
     if path_1 != "":
