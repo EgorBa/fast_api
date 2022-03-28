@@ -30,9 +30,17 @@ def get_path_video(tag):
     return str(randrange(diversity)) + "_" + tag + ".avi"
 
 
+def get_colors_from_str(str):
+    if str is None:
+        return None
+    strs = str[2:(len(str) - 2)].split("],[")
+    mas1 = list(map(int, strs[0].split(',')))
+    mas2 = list(map(int, strs[1].split(',')))
+    return (mas1, mas2)
+
+
 @app.get("/")
 def read_root():
-    time.sleep(40)
     return {"Hello": "World"}
 
 
@@ -65,7 +73,7 @@ def read_q(site: Optional[str] = "", logo_id: Optional[int] = 0):
 
 
 @app.get("/generate/{item_id}")
-def read_request(id: Optional[int] = 0):
+def read_request(id: Optional[int] = 0, colors: Optional[str] = None):
     if id == 0:
         return {"": ""}
 
@@ -91,7 +99,7 @@ def read_request(id: Optional[int] = 0):
         text=descr,  # text
         path_to_image=input_path,  # path to image
         animation_type="wiggle",  # type of animation
-        url='https://pythonist.ru'
+        colors=get_colors_from_str(colors)
     )
 
     if path_1 != "":
