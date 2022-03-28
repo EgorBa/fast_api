@@ -158,7 +158,10 @@ def read_request(id1: Optional[int] = 0, id2: Optional[int] = 0, id3: Optional[i
     imageBinaryBytes = imageFileObj.read()
     imageStream = io.BytesIO(imageBinaryBytes)
     s = imageStream.read().decode('ISO-8859-1')
-    return {"video": s}
+
+    db.reference("/").child("videos").child(str(id1) + str(id2) + str(id3)).child("video").set(s)
+
+    return {"video": "ready"}
 
 # @app.get("/create/{item_id}")
 # def read_request(im1: Optional[str] = "", im2: Optional[str] = "", im3: Optional[str] = "",
