@@ -5,6 +5,7 @@ from fastapi import FastAPI
 from random import randrange
 
 import ColorsGetter
+import Docker.server
 import LogoExtractor
 from VideoCreator import generate_one_video
 from moviepy.editor import *
@@ -73,7 +74,8 @@ def read_q(site: Optional[str] = "", logo_id: Optional[int] = 0):
 
 
 @app.get("/generate/{item_id}")
-def read_request(id: Optional[int] = 0, colors: Optional[str] = None):
+def read_request(id: Optional[int] = 0, colors: Optional[str] = None, animation_type: Optional[str] = "simple",
+                 clear_bg: Optional[bool] = False):
     if id == 0:
         return {"": ""}
 
@@ -91,6 +93,10 @@ def read_request(id: Optional[int] = 0, colors: Optional[str] = None):
         imageFile = Image.open(inp)
         imageFile.save(input_path)
         imageFile.close()
+        output_path = get_path("out")
+        if clear_bg:
+            Docker.server.process_request_by_input_output_path(input_path, output_path)
+            input_path = output_path
 
     path_1 = generate_one_video(
         video_len,
@@ -98,7 +104,7 @@ def read_request(id: Optional[int] = 0, colors: Optional[str] = None):
         x3=0, y3=int(H / 3), x4=W, y4=H,  # image position
         text=descr,  # text
         path_to_image=input_path,  # path to image
-        animation_type="simple",  # type of animation
+        animation_type=animation_type,  # type of animation
         colors=get_colors_from_str(colors)
     )
 
