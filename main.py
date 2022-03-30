@@ -5,14 +5,12 @@ from fastapi import FastAPI
 from random import randrange
 
 import ColorsGetter
-import Docker.server
 import LogoExtractor
 from VideoCreator import generate_one_video
 from moviepy.editor import *
 import firebase_admin
 from firebase_admin import db
 import requests
-import time
 
 cred_object = firebase_admin.credentials.Certificate('panelcreama-firebase-adminsdk-pxxap-8daf8c0b6c.json')
 default_app = firebase_admin.initialize_app(cred_object, {
@@ -93,10 +91,6 @@ def read_request(id: Optional[int] = 0, colors: Optional[str] = None, animation_
         imageFile = Image.open(inp)
         imageFile.save(input_path)
         imageFile.close()
-        output_path = get_path("out")
-        if clear_bg:
-            Docker.server.process_request_by_input_output_path(input_path, output_path)
-            input_path = output_path
 
     path_1 = generate_one_video(
         video_len,
