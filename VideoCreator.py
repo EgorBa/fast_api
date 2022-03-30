@@ -231,12 +231,12 @@ def generate_one_video(video_length, x1=0, y1=0, x2=0, y2=0, x3=0, y3=0, x4=0, y
         count_symbols = len(text)
         pictures = []
         if path_to_image != "":
-            image = Image.open(path_to_image)
+            image = Image.open(path_to_image).convert("RGBA")
             (image_w, image_h) = image.size
             (image_w, image_h) = find_image_size(image_w, image_h, x4 - x3, y4 - y3)
             image = image.resize((int(image_w), int(image_h)))
         for j in range(1, count_symbols + 1):
-            background = Image.new('RGB', frameSize, rgb_colors)
+            background = Image.new('RGBA', frameSize, rgb_colors)
             if path_to_image != "":
                 background.paste(image, (int((x3 + x4 - image_w) / 2), int((y3 + y4 - image_h) / 2)), mask=image)
             if promo_text != "":
@@ -246,10 +246,10 @@ def generate_one_video(video_length, x1=0, y1=0, x2=0, y2=0, x3=0, y3=0, x4=0, y
             font = ImageFont.truetype("21158.ttf", size=size_t)
             (w, h) = text_size(text, font)
             draw.text((int((x1 + x2 - w) / 2), int((y1 + y2 - h) / 2)), text[:j], font=font, fill=new_rgb_colors)
-            out_path = "prepared/" + str(randrange(1000000)) + ".png"
+            out_path = str(randrange(1000000)) + ".png"
             pictures.append(out_path)
             background.save(out_path, format="png")
-        out_video_path = 'videos/output_video_' + str(randrange(1000000)) + '.avi'
+        out_video_path = 'output_video_' + str(randrange(1000000)) + '.avi'
         out = cv2.VideoWriter(out_video_path, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), count_symbols, frameSize)
         for p in pictures:
             img = cv2.imread(p)
@@ -266,12 +266,12 @@ def generate_one_video(video_length, x1=0, y1=0, x2=0, y2=0, x3=0, y3=0, x4=0, y
         shift_x = int((y2 - y1) * 0.1)
         pictures = []
         if path_to_image != "":
-            image = Image.open(path_to_image)
+            image = Image.open(path_to_image).convert("RGBA")
             (image_w, image_h) = image.size
             (image_w, image_h) = find_image_size(image_w, image_h, x4 - x3, y4 - y3)
             image = image.resize((int(image_w), int(image_h)))
         for j in range(1, count_frames + 1):
-            background = Image.new('RGB', frameSize, rgb_colors)
+            background = Image.new('RGBA', frameSize, rgb_colors)
             if path_to_image != "":
                 background.paste(image, (int((x3 + x4 - image_w) / 2), int((y3 + y4 - image_h) / 2)), mask=image)
             if promo_text != "":
