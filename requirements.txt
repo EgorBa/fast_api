@@ -17,7 +17,7 @@ pydantic~=1.9.0
 firebase-admin==5.2.0
 scipy==1.8.0
 opencv-python~=4.5.5.64
-tqdm==4.63.1
+tqdm==4.62.3
 onnxruntime==1.10.0
 rembg~=2.0.11
 PyMatting~=1.1.5
