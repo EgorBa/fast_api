@@ -56,6 +56,8 @@ def use_cv_and_rembg(input_path, output_path):
     img2 = Image.open(output_path_rembg)
     img1.paste(img2, (0, 0), mask=img2)
     img1.save(output_path)
+    img1.close()
+    img2.close()
 
     clean(output_path_rembg)
     clean(output_path_cv2)
@@ -66,6 +68,7 @@ def use_rembg(input_path, output_path):
     result = remove(f)
     img = Image.open(io.BytesIO(result)).convert("RGBA")
     img.save(output_path)
+    img.close()
 
 
 def contains_white_bg(path):
