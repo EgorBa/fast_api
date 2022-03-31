@@ -62,4 +62,4 @@ from firebase_admin import db
 # print(len(p))
 import server
 
-server.process_request_by_input_output_path("logos/0.png", "lol.png")
+server.process_request_by_input_output_path("logos/img.png", "lol.png")

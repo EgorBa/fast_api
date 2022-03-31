@@ -15,13 +15,10 @@ diversity = 1000000
 
 def process_request_by_input_output_path(input_path, output_path):
     print("Process img : " + input_path)
-    try:
-        if contains_white_bg(input_path):
-            use_cv_and_rembg(input_path, output_path)
-        else:
-            use_rembg(input_path, output_path)
-    except Exception:
-        result_str = 'Something went wrong'
+    if contains_white_bg(input_path):
+        use_cv_and_rembg(input_path, output_path)
+    else:
+        use_rembg(input_path, output_path)
 
 
 def clean(path):
@@ -47,10 +44,10 @@ def use_cv_and_rembg(input_path, output_path):
     result[:, :, 3] = mask
     cv2.imwrite(output_path_cv2, result)
 
-    f = np.fromfile(input_path)
+    f = Image.open(input_path)
     result = remove(f)
-    img = Image.open(io.BytesIO(result)).convert("RGBA")
-    img.save(output_path_rembg)
+    result.save(output_path_rembg)
+    result.close()
 
     img1 = Image.open(output_path_cv2)
     img2 = Image.open(output_path_rembg)
