@@ -64,11 +64,10 @@ def use_cv_and_rembg(input_path, output_path):
 
 
 def use_rembg(input_path, output_path):
-    f = np.fromfile(input_path)
-    result = remove(f)
-    img = Image.open(io.BytesIO(result)).convert("RGBA")
-    img.save(output_path)
-    img.close()
+    input = Image.open(input_path)
+    output = remove(input)
+    output.save(output_path)
+    output.close()
 
 
 def contains_white_bg(path):

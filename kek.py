@@ -25,10 +25,10 @@ from firebase_admin import db
 # s = imageStream.read().decode('ISO-8859-1')
 # print(len(s))
 #
-cred_object = firebase_admin.credentials.Certificate('panelcreama-firebase-adminsdk-pxxap-8daf8c0b6c.json')
-default_app = firebase_admin.initialize_app(cred_object, {
-    'databaseURL': 'https://panelcreama-default-rtdb.firebaseio.com'
-})
+# cred_object = firebase_admin.credentials.Certificate('panelcreama-firebase-adminsdk-pxxap-8daf8c0b6c.json')
+# default_app = firebase_admin.initialize_app(cred_object, {
+#     'databaseURL': 'https://panelcreama-default-rtdb.firebaseio.com'
+# })
 # print(get_colors_from_str("[[1,1,1],[1,1,1]]"))
 
 # db.reference("/").child("Books").set({
@@ -39,8 +39,8 @@ default_app = firebase_admin.initialize_app(cred_object, {
 # })
 
 # print(db.reference("/").child("Books").child("Books").get("Best_Sellers")[0]['Best_Sellers'])
-# print(db.reference("/").child("images").child(str(5316737)).get("image")[0]['image'])
-print(len(db.reference("/").child("videos").child(str(45944043118572451831)).get("video")[0]["video"].encode('ISO-8859-1')))
+# # print(db.reference("/").child("images").child(str(5316737)).get("image")[0]['image'])
+# print(len(db.reference("/").child("videos").child(str(45944043118572451831)).get("video")[0]["video"].encode('ISO-8859-1')))
 
 # imageFileObj = open("logos/1.png", 'rb')
 # imageBinaryBytes = imageFileObj.read()
@@ -50,13 +50,16 @@ print(len(db.reference("/").child("videos").child(str(45944043118572451831)).get
 # p = requests.get(
 #     "https://afternoon-waters-50114.herokuapp.com/create/1?desc1=kek&im1=" + urllib.parse.quote(s))
 # print("--------------------")
-out_file = open("videos/3.mp4", "wb")
-out_file.write(db.reference("/").child("videos").child(str(45944043118572451831)).get("video")[0]["video"].encode('ISO-8859-1'))
-out_file.close()
-
-print(np.multiply(np.array([2, 3]), np.array([2, 3])))
+# out_file = open("videos/3.mp4", "wb")
+# out_file.write(db.reference("/").child("videos").child(str(45944043118572451831)).get("video")[0]["video"].encode('ISO-8859-1'))
+# out_file.close()
+#
+# print(np.multiply(np.array([2, 3]), np.array([2, 3])))
 
 # h = open("samplefile.avi", 'rb')
 # p = h.read()
 # print(p)
 # print(len(p))
+import server
+
+server.process_request_by_input_output_path("logos/0.png", "lol.png")
