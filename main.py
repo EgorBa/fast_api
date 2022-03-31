@@ -89,13 +89,21 @@ def read_request(id: Optional[int] = 0, colors: Optional[str] = None, animation_
     if image != "":
         input_path = get_path("in")
         inp = io.BytesIO(image.encode('ISO-8859-1'))
-        imageFile = Image.open(inp)
-        imageFile.save(input_path)
-        imageFile.close()
-        output_path = get_path("out")
+        image_file = Image.open(inp)
+        image_file.save(input_path)
+        image_file.close()
         if clear_bg:
+            output_path = get_path("out")
             server.process_request_by_input_output_path(input_path, output_path)
-            input_path = output_path
+            image_file_obj = open(output_path, 'rb')
+            image_binary_bytes = image_file_obj.read()
+            image_stream = io.BytesIO(image_binary_bytes)
+            s = image_stream.read().decode('ISO-8859-1')
+
+            inp = io.BytesIO(s.encode('ISO-8859-1'))
+            image_file = Image.open(inp)
+            image_file.save(input_path)
+            image_file.close()
 
     path_1 = generate_one_video(
         video_len,
@@ -108,10 +116,10 @@ def read_request(id: Optional[int] = 0, colors: Optional[str] = None, animation_
     )
 
     if path_1 != "":
-        imageFileObj = open(path_1, 'rb')
-        imageBinaryBytes = imageFileObj.read()
-        imageStream = io.BytesIO(imageBinaryBytes)
-        s = imageStream.read().decode('ISO-8859-1')
+        image_file_obj = open(path_1, 'rb')
+        image_binary_bytes = image_file_obj.read()
+        image_stream = io.BytesIO(image_binary_bytes)
+        s = image_stream.read().decode('ISO-8859-1')
         db.reference("/").child("videos").child(str(id)).child("video").set(s)
 
     return {"video": "generating"}
