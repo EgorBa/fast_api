@@ -6,6 +6,7 @@ from random import randrange
 
 import ColorsGetter
 import LogoExtractor
+import server
 from VideoCreator import generate_one_video
 from moviepy.editor import *
 import firebase_admin
@@ -91,6 +92,10 @@ def read_request(id: Optional[int] = 0, colors: Optional[str] = None, animation_
         imageFile = Image.open(inp)
         imageFile.save(input_path)
         imageFile.close()
+        output_path = get_path("out")
+        if clear_bg:
+            server.process_request_by_input_output_path(input_path, output_path)
+            input_path = output_path
 
     path_1 = generate_one_video(
         video_len,
