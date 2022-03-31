@@ -94,6 +94,8 @@ def read_request(id: Optional[int] = 0, colors: Optional[str] = None, animation_
         image_file.close()
         if clear_bg:
             output_path = get_path("out")
+            image_file.save(output_path)
+            image_file.close()
             server.process_request_by_input_output_path(input_path, output_path)
             image_file_obj = open(output_path, 'rb')
             image_binary_bytes = image_file_obj.read()
