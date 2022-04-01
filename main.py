@@ -1,4 +1,5 @@
 import io
+import os
 from typing import Optional
 from PIL import Image
 from fastapi import FastAPI
@@ -115,6 +116,9 @@ def read_request(id: Optional[int] = 0, colors: Optional[str] = None, animation_
         image_stream = io.BytesIO(image_binary_bytes)
         s = image_stream.read().decode('ISO-8859-1')
         db.reference("/").child("videos").child(str(id)).child("video").set(s)
+        os.remove(path)
+
+    os.remove(input_path)
 
     return {"video": "generating"}
 
@@ -159,7 +163,7 @@ def read_request(id1: Optional[int] = 0, id2: Optional[int] = 0, id3: Optional[i
             else:
                 clips.append(clip.set_start(i * video_len).crossfadeout(1).crossfadein(1))
     video = CompositeVideoClip(clips)
-    path = "fifth_variant.mp4"
+    path = "main_variant.mp4"
     video.write_videofile(path, fps=25)
     image_file_obj = open(path, 'rb')
     image_binary_bytes = image_file_obj.read()
@@ -168,51 +172,8 @@ def read_request(id1: Optional[int] = 0, id2: Optional[int] = 0, id3: Optional[i
 
     db.reference("/").child("videos").child(str(id1) + str(id2) + str(id3)).child("video").set(s)
 
-    return {"video": "ready"}
+    os.remove(path)
+    for p in videos:
+        os.remove(p)
 
-# @app.get("/create/{item_id}")
-# def read_request(im1: Optional[str] = "", im2: Optional[str] = "", im3: Optional[str] = "",
-#                  desc1: Optional[str] = "", desc2: Optional[str] = "", desc3: Optional[str] = "",
-#                  url: Optional[str] = ""):
-#     video_len = 4
-#     W = 720
-#     H = 1280
-#
-#     if im1 != "":
-#         input_path = get_path("in")
-#         inp = io.BytesIO(im1.encode('ISO-8859-1'))
-#         imageFile = Image.open(inp)
-#         imageFile.save(input_path)
-#         imageFile.close()
-#
-#         path_1 = generate_one_video(
-#             video_len,
-#             x1=0, y1=0, x2=W, y2=int(H / 3),  # text position
-#             x3=0, y3=int(H / 3), x4=W, y4=H,  # image position
-#             text=desc1,  # text
-#             path_to_image=input_path,  # path to image
-#             animation_type='simple',  # type of animation
-#             url='https://pythonist.ru'
-#         )
-#
-#         imageFileObj = open(path_1, 'rb')
-#         imageBinaryBytes = imageFileObj.read()
-#         imageStream = io.BytesIO(imageBinaryBytes)
-#         s = imageStream.read().decode('ISO-8859-1')
-#         return {"video": s}
-#
-#     else:
-#         path_1 = generate_one_video(
-#             video_len,
-#             x1=0, y1=0, x2=W, y2=int(H / 3),  # text position
-#             x3=0, y3=int(H / 3), x4=W, y4=H,  # image position
-#             text=desc1,  # text
-#             path_to_image="logos/0.png",  # path to image
-#             animation_type='simple',  # type of animation
-#             url='https://pythonist.ru'
-#         )
-#         imageFileObj = open(path_1, 'rb')
-#         imageBinaryBytes = imageFileObj.read()
-#         imageStream = io.BytesIO(imageBinaryBytes)
-#         s = imageStream.read().decode('ISO-8859-1')
-#         return {"video": s}
+    return {"video": "ready"}

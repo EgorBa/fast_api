@@ -1,11 +1,9 @@
 import os
 import cv2
 import numpy as np
-import io
 from rembg.bg import remove
 from PIL import Image, ImageFile
 from random import randrange
-import threading
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
 ImageFile.LOAD_TRUNCATED_IMAGES = True
@@ -19,11 +17,6 @@ def process_request_by_input_output_path(input_path, output_path):
         use_cv_and_rembg(input_path, output_path)
     else:
         use_rembg(input_path, output_path)
-
-
-def clean(path):
-    th = threading.Thread(target=os.remove, args=(path,))
-    th.start()
 
 
 def use_cv_and_rembg(input_path, output_path):
@@ -56,8 +49,9 @@ def use_cv_and_rembg(input_path, output_path):
     img1.close()
     img2.close()
 
-    clean(output_path_rembg)
-    clean(output_path_cv2)
+    os.remove(output_path_rembg)
+    os.remove(output_path_cv2)
+    os.remove(input_path)
 
 
 def use_rembg(input_path, output_path):
@@ -65,6 +59,7 @@ def use_rembg(input_path, output_path):
     output = remove(input)
     output.save(output_path)
     output.close()
+    os.remove(input_path)
 
 
 def contains_white_bg(path):

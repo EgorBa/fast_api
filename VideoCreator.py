@@ -2,7 +2,6 @@ import cv2
 from moviepy.editor import *
 from PIL import ImageFile, Image, ImageDraw, ImageFont
 from random import randrange
-import threading
 import requests
 import io
 
@@ -45,8 +44,8 @@ def find_max_font_size(font_path, text, max_w, max_h):
 
 def clean_res(paths):
     for path in paths:
-        th = threading.Thread(target=os.remove, args=(path,))
-        th.start()
+        os.remove(path)
+
 
 def add_corners(im, rad):
     circle = Image.new('L', (rad * 2, rad * 2), 0)
@@ -130,9 +129,9 @@ def generate_one_video(video_length, x1=0, y1=0, x2=0, y2=0, x3=0, y3=0, x4=0, y
             if im_url != "":
                 p = requests.get(im_url)
                 inp = io.BytesIO(p.content)
-                imageFile = Image.open(inp)
+                image_file = Image.open(inp)
                 logo_path = "logos_" + str(randrange(1000000)) + ".png"
-                imageFile.save(logo_path)
+                image_file.save(logo_path)
                 (rgb_colors, new_rgb_colors) = ColorsGetter.get_colors_by_logo(logo_path)
                 clean_res([logo_path])
 
@@ -174,7 +173,8 @@ def generate_one_video(video_length, x1=0, y1=0, x2=0, y2=0, x3=0, y3=0, x4=0, y
         out_image_path = "prepared/" + str(randrange(1000000)) + ".png"
         background.save(out_image_path, format="png")
         out_image_video_path = 'videos/output_video_' + str(randrange(1000000)) + '.avi'
-        out = cv2.VideoWriter(out_image_video_path, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 1 / video_length, frameSize)
+        out = cv2.VideoWriter(out_image_video_path, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 1 / video_length,
+                              frameSize)
         img = cv2.imread(out_image_path)
         out.write(img)
         out.release()
@@ -283,7 +283,7 @@ def generate_one_video(video_length, x1=0, y1=0, x2=0, y2=0, x3=0, y3=0, x4=0, y
             x = int((x1 + x2 - w - shift_x) / 2 + shift_x * (count_frames - abs(2 * j - count_frames)) / count_frames)
             if j <= count_frames * 3 / 4:
                 y = int((y1 + y2 - h - shift_y) / 2 + shift_y * (
-                            count_frames - abs(2 * j - count_frames / 2)) / count_frames)
+                        count_frames - abs(2 * j - count_frames / 2)) / count_frames)
             else:
                 y = int((y1 + y2 - h - shift_y) / 2 + shift_y * ((2 * j - 3 * count_frames / 2) / count_frames))
             draw.text((x, y), text, font=font, fill=new_rgb_colors)
@@ -300,7 +300,6 @@ def generate_one_video(video_length, x1=0, y1=0, x2=0, y2=0, x3=0, y3=0, x4=0, y
         out.release()
         clean_res(pictures)
         return out_video_path
-
 
 # paths = ["cutouts/cutout_1.png",
 #          "cutouts/cutout_2.png",
