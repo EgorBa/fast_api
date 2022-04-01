@@ -57,17 +57,17 @@ def read_q(site: Optional[str] = "", logo_id: Optional[int] = 0):
         if im_url != "":
             p = requests.get(im_url)
             inp = io.BytesIO(p.content)
-            imageFile = Image.open(inp)
+            image_file = Image.open(inp)
             logo_path = get_path("in")
-            imageFile.save(logo_path)
+            image_file.save(logo_path)
             (rgb_colors, new_rgb_colors) = ColorsGetter.get_colors_by_logo(logo_path)
     else:
         image = db.reference("/").child("logos").child(str(logo_id)).get("image")[0]['image']
         logo_path = get_path("in")
         inp = io.BytesIO(image.encode('ISO-8859-1'))
-        imageFile = Image.open(inp)
-        imageFile.save(logo_path)
-        imageFile.close()
+        image_file = Image.open(inp)
+        image_file.save(logo_path)
+        image_file.close()
         (rgb_colors, new_rgb_colors) = ColorsGetter.get_colors_by_logo(logo_path)
     return {"colors": (rgb_colors, new_rgb_colors)}
 
