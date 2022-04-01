@@ -118,7 +118,8 @@ def read_request(id: Optional[int] = 0, colors: Optional[str] = None, animation_
         db.reference("/").child("videos").child(str(id)).child("video").set(s)
         os.remove(path)
 
-    os.remove(input_path)
+    if input_path != "":
+        os.remove(input_path)
 
     return {"video": "generating"}
 
