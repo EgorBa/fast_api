@@ -99,13 +99,14 @@ def read_request(id: Optional[int] = 0, colors: Optional[str] = None, animation_
 
     path = generate_one_video(
         video_len,
-        x1=0, y1=0, x2=W, y2=int(H / 3),  # text position
-        x3=0, y3=int(H / 3), x4=W, y4=H,  # image position
-        text=descr,  # text
-        path_to_image=input_path,  # path to image
-        animation_type=animation_type,  # type of animation
-        colors=get_colors_from_str(colors),
-        promo_text=sale
+        x1=0, y1=0, x2=W, y2=int(H / 3),     # text position
+        x3=0, y3=int(H / 3), x4=W, y4=H,     # image position
+        text=descr,                          # text
+        path_to_image=input_path,            # path to image
+        animation_type=animation_type,       # type of animation
+        colors=get_colors_from_str(colors),  # main colors
+        x5=400, y5=400, x6=600, y6=600,      # promo coordinates
+        promo_text=sale                      # promo text
     )
 
     if path != "":
@@ -160,10 +161,10 @@ def read_request(id1: Optional[int] = 0, id2: Optional[int] = 0, id3: Optional[i
     video = CompositeVideoClip(clips)
     path = "fifth_variant.mp4"
     video.write_videofile(path, fps=25)
-    imageFileObj = open(path, 'rb')
-    imageBinaryBytes = imageFileObj.read()
-    imageStream = io.BytesIO(imageBinaryBytes)
-    s = imageStream.read().decode('ISO-8859-1')
+    image_file_obj = open(path, 'rb')
+    image_binary_bytes = image_file_obj.read()
+    image_stream = io.BytesIO(image_binary_bytes)
+    s = image_stream.read().decode('ISO-8859-1')
 
     db.reference("/").child("videos").child(str(id1) + str(id2) + str(id3)).child("video").set(s)
 
