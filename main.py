@@ -178,3 +178,12 @@ def read_request(id1: Optional[int] = 0, id2: Optional[int] = 0, id3: Optional[i
         os.remove(p)
 
     return {"video": "ready"}
+
+
+@app.get("/mock/{item_id}")
+def read_request(path: Optional[str] = ""):
+    image_file_obj = open(path, 'rb')
+    image_binary_bytes = image_file_obj.read()
+    image_stream = io.BytesIO(image_binary_bytes)
+    s = image_stream.read().decode('ISO-8859-1')
+    return {"video": s}
