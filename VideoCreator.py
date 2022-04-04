@@ -170,9 +170,9 @@ def generate_one_video(video_length, x1=0, y1=0, x2=0, y2=0, x3=0, y3=0, x4=0, y
             background.paste(image, (int((x3 + x4 - w) / 2), int((y3 + y4 - h) / 2)), mask=image)
         if promo_text != "":
             create_sale(background, x5, y5, x6, y6, promo_text, promo_type)
-        out_image_path = "prepared/" + str(randrange(1000000)) + ".png"
+        out_image_path = str(randrange(1000000)) + ".png"
         background.save(out_image_path, format="png")
-        out_image_video_path = 'videos/output_video_' + str(randrange(1000000)) + '.avi'
+        out_image_video_path = 'output_video_' + str(randrange(1000000)) + '.avi'
         out = cv2.VideoWriter(out_image_video_path, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), 1 / video_length,
                               frameSize)
         img = cv2.imread(out_image_path)
@@ -188,14 +188,15 @@ def generate_one_video(video_length, x1=0, y1=0, x2=0, y2=0, x3=0, y3=0, x4=0, y
         txt_mov = txt_col.set_pos(lambda t: (max(x1, int(x2 * (1 - t))), int((y1 + y2 - h) / 2)))
         txt_mov = txt_mov.set_start(0).set_end(video_length)
 
-        out_video_path = 'videos/output_video_' + str(randrange(1000000)) + '.mp4'
+        out_video_path = 'output_video_' + str(randrange(1000000)) + '.mp4'
         video = CompositeVideoClip([VideoFileClip(out_image_video_path), txt_mov])
         video.write_videofile(out_video_path, fps=25)
         clean_res([out_image_path, out_image_video_path])
         return out_video_path
     if animation_type == "scale" and text != "" and video_length > 1:
         count_frames = 60
-        pictures = []
+        out_video_path = 'output_video_' + str(randrange(1000000)) + '.avi'
+        out = cv2.VideoWriter(out_video_path, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), count_frames, frameSize)
         if path_to_image != "":
             image = Image.open(path_to_image).convert("RGBA")
             (image_w, image_h) = image.size
@@ -214,22 +215,19 @@ def generate_one_video(video_length, x1=0, y1=0, x2=0, y2=0, x3=0, y3=0, x4=0, y
             (w, h) = text_size(text, font)
             draw.text((int((x1 + x2 - w) / 2), int((y1 + y2 - h) / 2)), text, font=font, fill=new_rgb_colors)
             out_path = str(randrange(1000000)) + ".png"
-            pictures.append(out_path)
             background.save(out_path, format="png")
-        out_video_path = 'output_video_' + str(randrange(1000000)) + '.avi'
-        out = cv2.VideoWriter(out_video_path, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), count_frames, frameSize)
-        for p in pictures:
-            img = cv2.imread(p)
+            img = cv2.imread(out_path)
             out.write(img)
-        img = cv2.imread(pictures[-1])
-        for i in range(int((video_length - 1) * count_frames)):
-            out.write(img)
+            if j == count_frames:
+                for i in range(int((video_length - 1) * count_frames)):
+                    out.write(img)
+            clean_res([out_path])
         out.release()
-        clean_res(pictures)
         return out_video_path
     if animation_type == "by symbol" and text != "" and video_length > 1:
         count_symbols = len(text)
-        pictures = []
+        out_video_path = 'output_video_' + str(randrange(1000000)) + '.avi'
+        out = cv2.VideoWriter(out_video_path, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), count_symbols, frameSize)
         if path_to_image != "":
             image = Image.open(path_to_image).convert("RGBA")
             (image_w, image_h) = image.size
@@ -247,18 +245,14 @@ def generate_one_video(video_length, x1=0, y1=0, x2=0, y2=0, x3=0, y3=0, x4=0, y
             (w, h) = text_size(text, font)
             draw.text((int((x1 + x2 - w) / 2), int((y1 + y2 - h) / 2)), text[:j], font=font, fill=new_rgb_colors)
             out_path = str(randrange(1000000)) + ".png"
-            pictures.append(out_path)
             background.save(out_path, format="png")
-        out_video_path = 'output_video_' + str(randrange(1000000)) + '.avi'
-        out = cv2.VideoWriter(out_video_path, cv2.VideoWriter_fourcc('M', 'J', 'P', 'G'), count_symbols, frameSize)
-        for p in pictures:
-            img = cv2.imread(p)
+            img = cv2.imread(out_path)
             out.write(img)
-        img = cv2.imread(pictures[-1])
-        for i in range(int((video_length - 1) * count_symbols)):
-            out.write(img)
+            if j == count_symbols:
+                for i in range(int((video_length - 1) * count_symbols)):
+                    out.write(img)
+            clean_res([out_path])
         out.release()
-        clean_res(pictures)
         return out_video_path
     if animation_type == "wiggle" and text != "" and video_length > 1:
         count_frames = 60
