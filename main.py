@@ -183,8 +183,8 @@ def read_request(id0: Optional[int] = 0, id1: Optional[int] = 0, id2: Optional[i
                 clips.append(clip.set_start(i * video_len).crossfadeout(1).crossfadein(1))
     video = CompositeVideoClip(clips)
     path = "main_variant.mp4"
-    video.write_videofile(path, fps=25)
     image_file_obj = open(path, 'rb')
+    video.write_videofile(path, fps=25)
     image_binary_bytes = image_file_obj.read()
     image_stream = io.BytesIO(image_binary_bytes)
     s = image_stream.read().decode('ISO-8859-1')
