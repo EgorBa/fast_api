@@ -294,6 +294,7 @@ def generate_one_video(video_length, x1=0, y1=0, x2=0, y2=0, x3=0, y3=0, x4=0, y
         out.release()
         clean_res(pictures)
         return out_video_path
+    return ""
 
 # paths = ["cutouts/cutout_1.png",
 #          "cutouts/cutout_2.png",
