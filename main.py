@@ -74,7 +74,8 @@ def read_q(site: Optional[str] = "", logo_id: Optional[int] = 0):
 
 
 @app.get("/generate/{item_id}")
-def read_request(id: Optional[int] = 0, colors: Optional[str] = None, animation_type: Optional[str] = "simple",
+def read_request(item_id: int, id: Optional[int] = 0, colors: Optional[str] = None,
+                 animation_type: Optional[str] = "simple",
                  clear_bg: Optional[bool] = False, sale: Optional[str] = ""):
     if id == 0:
         return {"": ""}
@@ -98,17 +99,26 @@ def read_request(id: Optional[int] = 0, colors: Optional[str] = None, animation_
             server.process_request_by_input_output_path(input_path, output_path)
             input_path = output_path
 
-    path = generate_one_video(
-        video_len,
-        x1=0, y1=0, x2=W, y2=int(H / 3),     # text position
-        x3=0, y3=int(H / 3), x4=W, y4=H,     # image position
-        text=descr,                          # text
-        path_to_image=input_path,            # path to image
-        animation_type=animation_type,       # type of animation
-        colors=get_colors_from_str(colors),  # main colors
-        x5=400, y5=400, x6=600, y6=600,      # promo coordinates
-        promo_text=sale                      # promo text
-    )
+    if item_id == 0:
+        path = generate_one_video(
+            video_len,
+            x1=0, y1=0, x2=W, y2=H,  # text position
+            text=descr,  # text
+            animation_type=animation_type,  # type of animation
+            colors=get_colors_from_str(colors),  # main colors
+        )
+    else:
+        path = generate_one_video(
+            video_len,
+            x1=0, y1=0, x2=W, y2=int(H / 3),  # text position
+            x3=0, y3=int(H / 3), x4=W, y4=H,  # image position
+            text=descr,  # text
+            path_to_image=input_path,  # path to image
+            animation_type=animation_type,  # type of animation
+            colors=get_colors_from_str(colors),  # main colors
+            x5=400, y5=400, x6=600, y6=600,  # promo coordinates
+            promo_text=sale  # promo text
+        )
 
     if path != "":
         image_file_obj = open(path, 'rb')
@@ -125,11 +135,19 @@ def read_request(id: Optional[int] = 0, colors: Optional[str] = None, animation_
 
 
 @app.get("/videos/{item_id}")
-def read_request(id1: Optional[int] = 0, id2: Optional[int] = 0, id3: Optional[int] = 0):
+def read_request(id0: Optional[int] = 0, id1: Optional[int] = 0, id2: Optional[int] = 0, id3: Optional[int] = 0):
+    v0 = db.reference("/").child("videos").child(str(id0)).get("video")[0]
     v1 = db.reference("/").child("videos").child(str(id1)).get("video")[0]
     v2 = db.reference("/").child("videos").child(str(id2)).get("video")[0]
     v3 = db.reference("/").child("videos").child(str(id3)).get("video")[0]
     videos = []
+
+    if v0 is not None:
+        input_path = get_path_video("in")
+        out_file = open(input_path, "wb")
+        out_file.write(v0["video"].encode('ISO-8859-1'))
+        out_file.close()
+        videos.append(input_path)
 
     if v1 is not None:
         input_path = get_path_video("in")
