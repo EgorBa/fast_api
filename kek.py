@@ -47,8 +47,8 @@ from firebase_admin import db
 # imageStream = io.BytesIO(imageBinaryBytes)
 # s = imageStream.read().decode('ISO-8859-1')
 # print(len(s))
-# p = requests.get(
-#     "https://afternoon-waters-50114.herokuapp.com/create/1?desc1=kek&im1=" + urllib.parse.quote(s))
+p = requests.get(
+    "https://afternoon-waters-50114.herokuapp.com/videos/1?id0=5915764&id1=8920502&id2=8746451&id3=8361263")
 # print("--------------------")
 # out_file = open("videos/3.mp4", "wb")
 # out_file.write(db.reference("/").child("videos").child(str(45944043118572451831)).get("video")[0]["video"].encode('ISO-8859-1'))
@@ -63,20 +63,20 @@ from firebase_admin import db
 import server
 
 # server.process_request_by_input_output_path("logos/img.png", "lol.png")
-from VideoCreator import generate_one_video
-
-video_len = 4
-W = 720
-H = 1280
-
-path = generate_one_video(
-        video_len,
-        x1=0, y1=0, x2=W, y2=int(H / 3),     # text position
-        x3=0, y3=int(H / 3), x4=W, y4=H,     # image position
-        text="kek",                          # text
-        path_to_image="logos/0.png",            # path to image
-        animation_type="move",       # type of animation
-      # main colors
-        x5=400, y5=400, x6=600, y6=600,      # promo coordinates
-        promo_text=""                     # promo text
-    )
+# from VideoCreator import generate_one_video
+#
+# video_len = 4
+# W = 720
+# H = 1280
+#
+# path = generate_one_video(
+#         video_len,
+#         x1=0, y1=0, x2=W, y2=int(H / 3),     # text position
+#         x3=0, y3=int(H / 3), x4=W, y4=H,     # image position
+#         text="kek",                          # text
+#         path_to_image="logos/0.png",            # path to image
+#         animation_type="move",       # type of animation
+#       # main colors
+#         x5=400, y5=400, x6=600, y6=600,      # promo coordinates
+#         promo_text=""                     # promo text
+#     )
