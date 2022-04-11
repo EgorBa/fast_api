@@ -190,7 +190,7 @@ def read_request(id0: Optional[int] = 0, id1: Optional[int] = 0, id2: Optional[i
     image_stream = io.BytesIO(image_binary_bytes)
     s = image_stream.read().decode('ISO-8859-1')
 
-    db.reference("/").child("videos").child(str(id1) + str(id2) + str(id3)).child("video").set(s)
+    db.reference("/").child("videos").child(str(id0) + str(id1) + str(id2) + str(id3)).child("video").set(s)
 
     os.remove(path)
     for p in videos:
