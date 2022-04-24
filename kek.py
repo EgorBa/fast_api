@@ -47,8 +47,8 @@ from firebase_admin import db
 # imageStream = io.BytesIO(imageBinaryBytes)
 # s = imageStream.read().decode('ISO-8859-1')
 # print(len(s))
-p = requests.get(
-    "https://afternoon-waters-50114.herokuapp.com/videos/1?id0=5915764&id1=8920502&id2=8746451&id3=8361263")
+# p = requests.get(
+#     "https://afternoon-waters-50114.herokuapp.com/videos/1?id0=5915764&id1=8920502&id2=8746451&id3=8361263")
 # print("--------------------")
 # out_file = open("videos/3.mp4", "wb")
 # out_file.write(db.reference("/").child("videos").child(str(45944043118572451831)).get("video")[0]["video"].encode('ISO-8859-1'))
@@ -60,23 +60,60 @@ p = requests.get(
 # p = h.read()
 # print(p)
 # print(len(p))
+from moviepy.video.compositing.CompositeVideoClip import CompositeVideoClip
+from moviepy.video.io.VideoFileClip import VideoFileClip
+
 import server
 
 # server.process_request_by_input_output_path("logos/img.png", "lol.png")
-# from VideoCreator import generate_one_video
+from VideoCreator import generate_one_video
 #
-# video_len = 4
-# W = 720
-# H = 1280
+video_len = 4
+W = 720
+H = 1280
+
+# input_path = "logos/3.jpeg"
 #
+# output_path = "1.png"
+# server.process_request_by_input_output_path(input_path, output_path)
+# input_path = output_path
+
 # path = generate_one_video(
 #         video_len,
-#         x1=0, y1=0, x2=W, y2=int(H / 3),     # text position
-#         x3=0, y3=int(H / 3), x4=W, y4=H,     # image position
-#         text="kek",                          # text
-#         path_to_image="logos/0.png",            # path to image
-#         animation_type="move",       # type of animation
-#       # main colors
-#         x5=400, y5=400, x6=600, y6=600,      # promo coordinates
-#         promo_text=""                     # promo text
-#     )
+#         x1=30, y1=0, x2=W - 30, y2=int(H / 3),  # text position
+#         x3=0, y3=int(H / 3), x4=W, y4=H,  # image position
+#         text="Удобные кросовки",  # text
+#         path_to_image=input_path,  # path to image
+#         animation_type="wiggle",  # type of animation
+#         url="https://pythonist.ru/",
+#         x5=400, y5=400, x6=600, y6=600,  # promo coordinates
+#         promo_text="",  # promo text
+# )
+
+# path = generate_one_video(
+#         video_len,
+#         x1=30, y1=0, x2=W - 30, y2=int(H),  # text position
+#         x3=0, y3=int(H / 3), x4=W, y4=H,  # image position
+#         text="Pythonist.ru",  # text
+#         path_to_image="",  # path to image
+#         animation_type="scale",  # type of animation
+#         url="https://pythonist.ru/",
+#         x5=400, y5=400, x6=600, y6=600,  # promo coordinates
+#         promo_text="",  # promo text
+# )
+
+videos = ["output_video_838756.avi", "output_video_850754.avi", "output_video_224366.avi", "output_video_721151.avi"]
+
+clips = []
+for i in range(len(videos)):
+        clip = VideoFileClip(videos[i])
+        if i == 0:
+                clips.append(clip.set_start(i * video_len).crossfadeout(1))
+        else:
+                if i == len(videos) - 1:
+                        clips.append(clip.set_start(i * video_len).crossfadein(1))
+                else:
+                        clips.append(clip.set_start(i * video_len).crossfadeout(1).crossfadein(1))
+video = CompositeVideoClip(clips)
+path = "main_variant.mp4"
+video.write_videofile(path, fps=25)
