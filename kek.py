@@ -16,8 +16,8 @@ import numpy
 #     mas2 = list(map(int, strs[1].split(',')))
 #     return (mas1, mas2)
 
-import firebase_admin
-from firebase_admin import db
+# import firebase_admin
+# from firebase_admin import db
 
 # imageFileObj = open("logos/0.png", 'rb')
 # imageBinaryBytes = imageFileObj.read()
@@ -63,6 +63,7 @@ from firebase_admin import db
 from moviepy.video.compositing.CompositeVideoClip import CompositeVideoClip
 from moviepy.video.io.VideoFileClip import VideoFileClip
 
+import ColorsGetter
 import server
 
 # server.process_request_by_input_output_path("logos/img.png", "lol.png")
@@ -72,22 +73,35 @@ video_len = 4
 W = 720
 H = 1280
 
-# input_path = "logos/3.jpeg"
+(rgb_colors, new_rgb_colors) = ColorsGetter.get_colors_by_logo("logos/0.png")
+
+input_path = "logos/0.png"
 #
 # output_path = "1.png"
 # server.process_request_by_input_output_path(input_path, output_path)
 # input_path = output_path
 
-# path = generate_one_video(
-#         video_len,
-#         x1=30, y1=0, x2=W - 30, y2=int(H / 3),  # text position
-#         x3=0, y3=int(H / 3), x4=W, y4=H,  # image position
-#         text="Удобные кросовки",  # text
-#         path_to_image=input_path,  # path to image
-#         animation_type="wiggle",  # type of animation
-#         url="https://pythonist.ru/",
-#         x5=400, y5=400, x6=600, y6=600,  # promo coordinates
-#         promo_text="",  # promo text
+path = generate_one_video(
+        video_len,
+        x1=30, y1=0, x2=W - 30, y2=int(H / 3),  # text position
+        x3=0, y3=int(H / 3), x4=W, y4=H,  # image position
+        text="Большой выбор украшений",  # text
+        animation_type="simple",  # type of animation
+        colors=(rgb_colors, new_rgb_colors),
+        x5=400, y5=400, x6=600, y6=600,  # promo coordinates
+        promo_text="",  # promo text
+        use_emotion=True
+)
+#
+# path1 = generate_one_video(
+#     video_len,
+#     x1=30, y1=0, x2=W - 30, y2=H,  # text position
+#     x3=0, y3=int(H / 3), x4=W, y4=H,  # image position
+#     text="E. L. jewellery",  # text
+#     animation_type="scale",  # type of animation
+#     colors=(rgb_colors, new_rgb_colors),
+#     x5=400, y5=400, x6=600, y6=600,  # promo coordinates
+#     promo_text="",  # promo text
 # )
 
 # path = generate_one_video(
@@ -102,18 +116,18 @@ H = 1280
 #         promo_text="",  # promo text
 # )
 
-videos = ["output_video_838756.avi", "output_video_850754.avi", "output_video_224366.avi", "output_video_721151.avi"]
-
-clips = []
-for i in range(len(videos)):
-        clip = VideoFileClip(videos[i])
-        if i == 0:
-                clips.append(clip.set_start(i * video_len).crossfadeout(1))
-        else:
-                if i == len(videos) - 1:
-                        clips.append(clip.set_start(i * video_len).crossfadein(1))
-                else:
-                        clips.append(clip.set_start(i * video_len).crossfadeout(1).crossfadein(1))
-video = CompositeVideoClip(clips)
-path = "main_variant.mp4"
-video.write_videofile(path, fps=25)
+# videos = ["output_video_516494.avi", "output_video_33573.avi"]
+#
+# clips = []
+# for i in range(len(videos)):
+#         clip = VideoFileClip(videos[i])
+#         if i == 0:
+#                 clips.append(clip.set_start(i * video_len).crossfadeout(1))
+#         else:
+#                 if i == len(videos) - 1:
+#                         clips.append(clip.set_start(i * video_len).crossfadein(1))
+#                 else:
+#                         clips.append(clip.set_start(i * video_len).crossfadeout(1).crossfadein(1))
+# video = CompositeVideoClip(clips)
+# path = "main_variant.mp4"
+# video.write_videofile(path, fps=25)

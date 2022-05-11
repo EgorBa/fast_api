@@ -7,6 +7,7 @@ import io
 
 import LogoExtractor
 import ColorsGetter
+from NLP.Emotions import get_emotion_path
 
 ImageFile.LOAD_TRUNCATED_IMAGES = True
 W = 720
@@ -112,7 +113,7 @@ def create_sale(background, x5, y5, x6, y6, promo_text, promo_type):
 # promo_type can be "rect", "circle"
 def generate_one_video(video_length, x1=0, y1=0, x2=0, y2=0, x3=0, y3=0, x4=0, y4=0, text="", path_to_image="",
                        animation_type="simple", x5=0, y5=0, x6=0, y6=0, promo_text="", promo_type="rect", url="",
-                       colors=None):
+                       colors=None, use_emotion=False):
     if (path_to_image == "" and text == "") \
             or (text != "" and (x1 == x2 or y1 == y2)) \
             or (path_to_image != "" and (x3 == x4 or y3 == y4)) \
@@ -120,6 +121,9 @@ def generate_one_video(video_length, x1=0, y1=0, x2=0, y2=0, x3=0, y3=0, x4=0, y
         return ""
 
     (rgb_colors, new_rgb_colors) = ((255, 0, 0), (0, 0, 0))
+
+    if path_to_image == "" and use_emotion:
+        path_to_image = get_emotion_path(text)
 
     if colors is not None:
         (rgb_colors, new_rgb_colors) = colors
